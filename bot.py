@@ -55,7 +55,7 @@ def handle_message(message):
 
     conn.close()
 
-# Creating a keyboard with rubrics to offer a choice to the user (создаyние клавиатуры с рубриками для предложения выбора пользователю).
+# Creating a keyboard with rubrics to offer a choice to the user (создание клавиатуры с рубриками для предложения выбора пользователю).
 keyboard = telebot.types.ReplyKeyboardMarkup(row_width=2)
 keyboard.add(*['Рубрика 1', 'Рубрика 2', 'Рубрика 3'])
 
