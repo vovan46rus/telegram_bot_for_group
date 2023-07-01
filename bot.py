@@ -1,9 +1,9 @@
 import telebot
 import sqlite3
 
-bot = telebot.TeleBot('%ваш токен%');
+bot = telebot.TeleBot('%your token/ваш токен%');
 
-# Создание базы данных и таблицы для подписчиков
+# Creating a database and table for subscribers (создание базы данных и таблицы для подписчиков).
 conn = sqlite3.connect('news_bot.db')
 cursor = conn.cursor()
 
@@ -13,7 +13,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS subscribers (
                     username TEXT
                 )''')
 
-# Создание таблицы для новостей
+# Create a news table (создание таблицы для новостей).
 cursor.execute('''CREATE TABLE IF NOT EXISTS news (
                     id INTEGER PRIMARY KEY,
                     category TEXT,
@@ -22,13 +22,13 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS news (
 
 conn.commit()
 
-# Регистрация команды /start, чтобы добавить подписчиков в базу данных:
+# Registering the /start command to add subscribers to the database (регистрация команды /start, чтобы добавить подписчиков в базу данных).
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     chat_id = message.chat.id
     username = message.chat.username
 
-    # Добавление подписчика в базу данных
+    # Adding a Subscriber to the Database (добавление подписчика в базу данных).
     conn = sqlite3.connect('news_bot.db')
     cursor = conn.cursor()
 
@@ -37,13 +37,13 @@ def handle_start(message):
 
     bot.reply_to(message, "Вы были успешно подписаны на новости.")
 
-# Регистрация обработчика сообщений, чтобы получать сообщения с выбранными рубриками от пользователей:
+# Registering a message handler to receive messages with selected categories from users (регистрация обработчика сообщений, чтобы получать сообщения с выбранными рубриками от пользователей).
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     chat_id = message.chat.id
     category = message.text
 
-    # Отфильтровывание новостей по выбранной рубрике
+    # Filtering news by selected category (отфильтровывание новостей по выбранной рубрике).
     conn = sqlite3.connect('news_bot.db')
     cursor = conn.cursor()
 
@@ -55,7 +55,7 @@ def handle_message(message):
 
     conn.close()
 
-# Создаyние клавиатуры с рубриками для предложения выбора пользователю:
+# Creating a keyboard with rubrics to offer a choice to the user (создаyние клавиатуры с рубриками для предложения выбора пользователю).
 keyboard = telebot.types.ReplyKeyboardMarkup(row_width=2)
 keyboard.add(*['Рубрика 1', 'Рубрика 2', 'Рубрика 3'])
 
@@ -64,7 +64,7 @@ def handle_start(message):
     chat_id = message.chat.id
     username = message.chat.username
 
-    # Добавление подписчика в базу данных
+    # Adding a Subscriber to the Database (добавление подписчика в базу данных).
     conn = sqlite3.connect('news_bot.db')
     cursor = conn.cursor()
 
@@ -73,5 +73,5 @@ def handle_start(message):
 
     bot.reply_to(message, "Вы были успешно подписаны на новости.", reply_markup=keyboard)
 
-# Запуск бота:
+# Bot launch (запуск бота).
 bot.polling()
